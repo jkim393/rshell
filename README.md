@@ -1,2 +1,3 @@
 # rshell-stoics
-testing
+cs100 F17
+Jihwan Kim & Nikhil Gowda
