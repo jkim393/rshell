@@ -15,13 +15,14 @@ string connector = "";
 while (!exit)
 	{
 		cout << "$";
-		cin >> command;
+		cin >> executable;
 		cin >> argumentList;
 		cin >> connector;
+
+		exit = true;
 	}
 
-
-
+	cout << "\n" << executable << "\n" << argumentList << "\n" << connector << endl;
 
 return 0;
 }
