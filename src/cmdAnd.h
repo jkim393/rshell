@@ -1,6 +1,5 @@
 #ifndef _CMDAND_H_
 #define _CMDAND_H_
-#include "cmdBase.h"
 #include "cmdConn.h"
 
 	class cmdAnd : public cmdConn {
