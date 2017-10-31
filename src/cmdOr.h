@@ -3,7 +3,7 @@
 
 	class cmdOr : public cmdConn {
 		public: 
-			1cmdOr(): cmdConn() {};
+			cmdOr(): cmdConn() {};
 			cmdOr(cmdBase* left, cmdBase* right) : cmdConn(left, right) {};
 			bool evaluate();
 
