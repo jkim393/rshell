@@ -1,6 +1,6 @@
 #ifndef _CMDCONN_H_
 #define _CMDCONN_H_
-
+#include "cmdBase.h"
 
 class cmdConn : public cmdBase {
 	protected:
