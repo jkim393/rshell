@@ -10,8 +10,7 @@ string executable = "";
 string argumentList = "";
 string connector = "";
 
-// I did not really add anything, just wanted a basic skeleton?
-// very naive implementation
+
 while (!exit)
 	{
 		cout << "$";
