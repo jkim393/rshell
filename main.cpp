@@ -16,7 +16,6 @@ int main()
 {
 
 cmdPrompt();
-
 return 0;
 }
 
