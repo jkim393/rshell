@@ -21,5 +21,3 @@ return 0;
 }
 
 
-Leo sucks
-Leo doesn't suck
