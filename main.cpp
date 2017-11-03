@@ -37,6 +37,7 @@ void cmdPrompt(vector< vector<char*> > &cmdVector)
 	string userInput = "";	//test string
 	cout << "$ ";	//outputs $
 	getline(cin, userInput); //get inputted string
+	
 	char str[userInput.size()];	//creates character array with string size
 	strcpy(str,userInput.c_str());	//turn string into character string and store in str[]
 	char* pch;	//used to iterate through list
