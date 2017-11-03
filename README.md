@@ -20,15 +20,19 @@ AND connector (&&): a command after the AND connector runs only if the command b
 ## Motivation
 
 This project was created and inspired by Bash (GNU Project's shell). We hoped to mimic a Bash environment in a C++ 
-environment by combining 
+environment by combining unique system calls with a composite structure that can handle a large amount of differentiating
+but related objects. 
 
 ## Tests and Bugs
 
-We have run this program through 
+We have run this program through rigorous tests of : single command, multiple commands, and comment parsing.
+
+BUT, we have come across a few bug worth of consideration. 
 
 ## Contributors
 
 Ji Hwan Kim
+and
 Nikhil Gowda
 
 ## License
