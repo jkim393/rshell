@@ -4,10 +4,25 @@
 
 using namespace std;
 /*
-Basically I am going to to parse by spaces and check each token for ;,||,&&. I check the semi colon condition which automatically
-puts the semi colon on a new line. If it is false, i do not create a new vector row but instead simply add a new value to the same 
-iteration. if a connector is detected i create a new row and iterate. for semi colon this is a special case where i detach the semi colon
-and add it to a new row and continue iterating. 
+Basically main calls cmdPrompt function which outputs a dollar sign. This
+function does the parsing pretty much and calls removeSemis where it removes all semis
+I have a test at the end to output the 2d array and 1 at end of cmdPrompt before semi colons removed
+* (thats why it may seem it was printed twice) and the last number is the size of vector
+pretty much after cmdPrompt is called, execVect is a successful 2d array in form
+* ls -a; mkdir Nikhil || mkdir Ji_Hwan || ls -a && git branch
+* 
+* this equals
+* 
+* ls -a
+* mkdir Nikhil
+* |
+* mkdir Ji_hwan
+* |
+* ls -a
+* &
+* git branch
+* 
+* and of course the arguments are stored in different char* places
 */
 
 
@@ -105,14 +120,12 @@ void cmdPrompt(vector< vector<char*> > &cmdVector)
 				cmdVector.back().push_back(pch);
 			}
 		}
-		  cout << "+ good" << endl;
 		  pch = strtok(NULL," ");
 			if (pch != NULL)
 			{
 			  last_letter = &(pch[strlen(pch)-1]);
 			}
 	}
-	
 	int a = 0;
 	int b = 0;
 	for (a = 0; a < cmdVector.size(); ++a)
@@ -123,6 +136,7 @@ void cmdPrompt(vector< vector<char*> > &cmdVector)
 				}
 			cout << endl;
 		}
+	
 	
 	removeSemis(cmdVector); // this command removes the semis before returning
 	return;
@@ -145,10 +159,6 @@ int main()
 			cout << endl;
 			}
 	cout << execVect.size() << endl;
-	cout << execVect.at(1).size() << endl;
-  cout << execVect.at(3).size() << endl;
 
 return 0;
 }
-
-
