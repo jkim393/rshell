@@ -37,4 +37,5 @@ Nikhil Gowda
 
 ## License
 
-A short snippet describing the license (MIT, Apache, etc.)
+This program is classified under a GNU Affero General Public License v3.0
+
