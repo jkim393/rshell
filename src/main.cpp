@@ -2,31 +2,13 @@
 #include <cstring>
 #include <vector>
 #include "cmdExec.h"
+//#include "cmdBase.h"
+//#include "cmdConn.h"
+//#include "cmdAnd.h"
+//#include "cmdOr.h"
+//#include "cmdSemi.h"
 
 using namespace std;
-/*
-Basically main calls cmdPrompt function which outputs a dollar sign. This
-function does the parsing pretty much and calls removeSemis where it removes all semis
-I have a test at the end to output the 2d array and 1 at end of cmdPrompt before semi colons removed
-* (thats why it may seem it was printed twice) and the last number is the size of vector
-pretty much after cmdPrompt is called, execVect is a successful 2d array in form
-* ls -a; mkdir Nikhil || mkdir Ji_Hwan || ls -a && git branch
-* 
-* this equals
-* 
-* ls -a
-* mkdir Nikhil
-* |
-* mkdir Ji_hwan
-* |
-* ls -a
-* &
-* git branch
-* 
-* and of course the arguments are stored in different char* places
-*/
-
-
 
 void removeSemis(vector<char*> &finishedVect)
 {
