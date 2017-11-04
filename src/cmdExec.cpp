@@ -29,6 +29,7 @@ bool cmdExec::evaluate(){
 	if (pid == 0){ //child
 		if (execvp(command[0],command) == -1) {
 			perror ("exec");
+			return false;
 		}
 	}
 	if (pid > 0) { //parent

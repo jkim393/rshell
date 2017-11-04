@@ -7,7 +7,7 @@ cmdSemi::cmdSemi(cmdBase* left) {
 }
 
 bool cmdSemi::evaluate() {
-	if (left->evaluate() ) {
-		return true;
-	}
+	bool s; //dummy bool
+	s = left->evaluate();
+	return true;
 }
