@@ -1,1 +1,3 @@
 ls; mkdir hello && ls; pwd
+ls -a || pwd || git status
+ls -a; echo hello && mkdir test || echo world; git status

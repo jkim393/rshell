@@ -1,1 +1,3 @@
 ls -al && mkdir Nik #hello
+#hey please ignore this comment
+git status # ls
