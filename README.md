@@ -28,6 +28,8 @@ but related objects.
 We have run this program through rigorous tests of : single command, multiple commands, and comment parsing.
 
 BUT, we have come across a few bug worth of consideration. 
+The first bug that must be considered is char* and using cstring functions can
+be seen as outdated and has reacted weirdly 
 
 ## Contributors
 
