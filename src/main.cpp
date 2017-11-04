@@ -42,6 +42,8 @@ void removeSemis(vector<char*> &finishedVect)
 
 int main()
 {
+	bool checker = true;
+	while(checker){
 	vector< vector<char*> > cmdVector;   // this is a vector that holds the 2d vector: of commands + connectors (no semis)
 	//cmdPrompt(execVect); // this is what creates the 2d vector
   
@@ -132,29 +134,67 @@ int main()
 			}
 
 	}
+		const char* e = "exit";
+		if ((cmdVector.at(0).at(0)) == e){
+			return 0;
+		}
 
-
-
-
-
-
-
-
-	cout << endl << endl;
-	int a = 0;
-	int b = 0;
-	for (a = 0; a < cmdVector.size(); ++a)
+		int k = 1;
+		bool leftChild = false;
+		if (cmdVector.size() != 0)
+		{
+			k = 1;
+		  leftChild  = false;
+			cmdExec A = cmdExec(cmdVector.at(0));
+			leftChild = A.evaluate();
+			while (k < cmdVector.size())
 			{
-				for (b = 0; b < cmdVector.at(a).size(); ++b)
-					{
-						cout << cmdVector.at(a).at(b) << ' ';
-					}
-			cout << endl;
-			}
-	cout << cmdVector.size() << endl;
-	
+				if (*(cmdVector.at(k).at(0)) == ';') // THIS WILL HANDLE IF CONNECTOR IS A SEMI COLON
+				{
+					cmdExec A = cmdExec(cmdVector.at(k+1));
+					leftChild = A.evaluate();
+					k = k + 2;
+				}
 
-	cout << cmdVector.at(1).at(0) << endl;
-	cout << cmdVector.at(3).at(0) << endl;
+				else if (*(cmdVector.at(k).at(0)) == '|')
+				{
+					if (leftChild == true)
+					{
+						k = k + 2;
+					}
+					else {
+						cmdExec A = cmdExec(cmdVector.at(k+1));
+						leftChild = A.evaluate();
+						k = k + 2;
+					}
+				}
+				
+				else if (*(cmdVector.at(k).at(0)) == '&')
+				{
+					if (leftChild == true)
+					{
+						cmdExec A = cmdExec(cmdVector.at(k+1));
+						leftChild = A.evaluate();
+						k = k + 2;
+					}
+					else {
+						k = k + 2;
+					}
+				}
+
+				
+			}
+		}
+		
+			
+
+
+
+
+
+
+
+cout << endl;
+}
 return 0;
 }
