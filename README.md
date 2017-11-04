@@ -28,8 +28,10 @@ but related objects.
 We have run this program through rigorous tests of : single command, multiple commands, and comment parsing.
 
 BUT, we have come across a few bug worth of consideration. 
-The first bug that must be considered is char* and using cstring functions can
-be seen as outdated and has reacted weirdly 
+This program is capable of successfully doing most commands but a few specific commands must be considered:
+Using pipe '|' will give the same behavior as an OR connector "||". This feature is being developed and will be fixed in the next iteration of our program. 
+This applies to the "&&" connector as well. This behavior is synonymous with '&'. Again, this feature is being developed and will be fixed in the
+next release. 
 
 ## Contributors
 
