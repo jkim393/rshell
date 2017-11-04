@@ -20,19 +20,22 @@ bool cmdExec::evaluate(){
 	//} this didn't work
 
 	char **command = &v[0]; //converting vector into array
-	const	char* e = "exit"; //exit function
+	//const	char* e = "exit"; //exit function
 	pid_t pid = fork();
-	if (command[0] == e){
-		exit(0);	
-	}
 
 	if (pid == 0){ //child
+	//	if (command[0] == e){
+			//	exit(0);	
+		//}
+		
 		if (execvp(command[0],command) == -1) {
 			perror ("exec");
 			return false;
 		}
 	}
+	
 	if (pid > 0) { //parent
+		
 		if ( waitpid(0, NULL, 0) == -1 ) {
 			perror ("wait");
 		}

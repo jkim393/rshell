@@ -30,8 +30,6 @@ pretty much after cmdPrompt is called, execVect is a successful 2d array in form
 
 void removeSemis(vector<char*> &finishedVect)
 {
-		int i = 0;
-		int x = 0;
 		char* last = finishedVect.back(); //last = nikhil;\0
 
 		last[strlen(last) - 1] = 0;
@@ -49,7 +47,12 @@ int main()
   
 	string userInput = "";	//test string
 	cout << "$ ";	//outputs $
-	getline(cin, userInput); //get inputted string
+	getline(cin, userInput); //get inputted strin
+	string temp = userInput.substr(0,4);
+	if (temp == "exit")
+	{
+		return 0;
+	}
 	userInput = userInput.substr(0, userInput.find("#"));
 	
 	char str[userInput.size()];	//creates character array with string size
@@ -58,8 +61,12 @@ int main()
 	pch = strtok(str, " ");
 	char* last_letter = &(pch[strlen(pch)-1]);
 	bool connectorTrue = false; // checks if previous parse was a connector 
-	char* orsign = new char('|');		//orsign pointer pointing to or sign
-	char* andsign = new char('&');		//andsign pointer pointing to and sign
+	//string a = "&&";
+//	string o = "||";
+//	char* orsign = (char*) o.c_str();		//orsign pointer pointing to or sign
+//	char* andsign = (char*) a.c_str();		//andsign pointer pointing to and sign
+	char* orsign = new char('|');
+	char* andsign = new char('&');
 	vector<char*> andSign;
 	andSign.push_back(andsign);
 	vector<char*> orSign;
@@ -135,12 +142,10 @@ int main()
 
 	}
 		
-		int k = 1;
-		bool leftChild = false;
 		if (cmdVector.size() != 0)
 		{
-			k = 1;
-		  leftChild  = false;
+			unsigned int k = 1;
+			bool leftChild  = false;
 			cmdExec A = cmdExec(cmdVector.at(0));
 			leftChild = A.evaluate();
 			while (k < cmdVector.size())
