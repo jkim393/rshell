@@ -4,8 +4,8 @@
 
 	class cmdAnd : public cmdConn {
 		public:
-			cmdAnd(): cmdConn() {};
-			cmdAnd(cmdBase* left, cmdBase* right) : cmdConn(left, right) {};
+			cmdAnd(): cmdConn() {}
+			cmdAnd(cmdBase* left, cmdBase* right) : cmdConn(left, right) {}
 			bool evaluate();
 	};
 

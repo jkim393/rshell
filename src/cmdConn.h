@@ -8,10 +8,8 @@ class cmdConn : public cmdBase {
 		cmdBase* right;
 
 	public:	
-		cmdConn() : cmdBase(){};
-		cmdConn(cmdBase* l, cmdBase* r): left (l), right(r){};
-		cmdBase* get_left() {return left;};
-		cmdBase* get_right() {return right;};
+		cmdConn() : cmdBase(){}
+		cmdConn(cmdBase* l, cmdBase* r): left(l), right(r){}
 		virtual bool evaluate() = 0;
 
 };
