@@ -33,6 +33,8 @@ This program is capable of successfully doing most commands but a few specific c
 Using pipe '|' will give the same behavior as an OR connector "||". This feature is being developed and will be fixed in the next iteration of our program. 
 This applies to the "&&" connector as well. This behavior is synonymous with '&'. Again, this feature is being developed and will be fixed in the
 next release. 
+Another error is connector arguments existent in strings with parenthesis may have undefined behavior such as : echo "cat; dog || mouse"
+Also, multiple newlines without input will create a seg fault. We are going to release a fix next development. 
 
 ## Contributors
 
