@@ -251,14 +251,14 @@ int main()
 	cout << endl << endl;
 	int a = 0;
 	int b = 0;
-//	for (a = 0; a < cmdVector.size(); ++a)
-	//		{
-		//		for (b = 0; b < cmdVector.at(a).size(); ++b)
-			//		{
-				//		cout << cmdVector.at(a).at(b) << ' ';
-			//		}
-		//	cout << endl;
-	//		}
+	for (a = 0; a < cmdVector.size(); ++a)
+			{
+				for (b = 0; b < cmdVector.at(a).size(); ++b)
+					{
+						cout << cmdVector.at(a).at(b) << ' ';
+					}
+			cout << endl;
+			}
 	cout << cmdVector.size() << endl;
 	
 
