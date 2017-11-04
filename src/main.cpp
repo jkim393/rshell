@@ -134,11 +134,7 @@ int main()
 			}
 
 	}
-		const char* e = "exit";
-		if ((cmdVector.at(0).at(0)) == e){
-			return 0;
-		}
-
+		
 		int k = 1;
 		bool leftChild = false;
 		if (cmdVector.size() != 0)
@@ -194,7 +190,6 @@ int main()
 
 
 
-cout << endl;
 }
 return 0;
 }
