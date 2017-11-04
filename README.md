@@ -2,6 +2,7 @@
 cs100 F17
 Jihwan Kim & Nikhil Gowda
 
+
 ## Synopsis
 
 This project allows users to run common shell commands through a C++ environment rather than a terminal. 
@@ -42,4 +43,5 @@ Nikhil Gowda
 ## License
 
 This program is classified under a GNU Affero General Public License v3.0
+
 
