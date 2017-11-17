@@ -8,15 +8,13 @@
 //use a vector instead and then convert it later
 class cmdExec : public cmdBase {
 	private:
-		//const char* command; //pointer to constant character: command
-		//char* const argv;
 		std::vector<char*> v;
 		
 	public:
 		cmdExec():cmdBase() {}
 		cmdExec(std::vector<char*> p); //take in the array whose first element is command
 		bool evaluate(); //execute the command
-
+		bool runTest(std::vector<char*> testVector);
 };
 #endif
 
