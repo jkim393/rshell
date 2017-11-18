@@ -15,15 +15,11 @@
 using namespace std;
 
 void destroy(cmdBase *curr){
-    if(curr == 0) {
-		        return;
-		    }
+    if(curr) {
     destroy(curr->left);
     destroy(curr->right);
-    curr->left = 0;
-    curr->right = 0;
     delete curr;
-    curr =  0;
+		}
 }
 
 void removeSemis(vector<char*> &finishedVect)
@@ -130,12 +126,14 @@ cmdBase* createTree(vector<vector<char*> > v) {
 		q.pop();
 	}
 
-
-
-
+//clearance
+	cmdBase* rt = myStack.top();
+	while (!myStack.empty()) {
+		myStack.pop();
+	}
 	//PART 3: Return
 	//return the top() of the stack which is the root
-	return myStack.top();
+	return rt;
 	
 }
 
@@ -313,12 +311,96 @@ int main()
 			}
 
 	}
+//	for (unsigned int i = 0; i < cmdVector.size(); i++){
+//		for (unsigned int j = 0; j < cmdVector.at(i).size(); j++){
+//			cout << cmdVector.at(i).at(j) << " ";
+//		}
+//		cout << endl;
+//	}
+//	cout << endl;
 
 
-cmdBase* root = createTree(cmdVector);
-root->evaluate();
-destroy(root);
+	//PART 1: Shuntingyard: create a postfix notation of the user's input
+	//1. create an output queue and a connector stack and push everything to the output queue using shunting yard algorithm
+	//queue: empty, front, back, push, pop, size
+	//stack: empty, top, push, pop, size
+  const char* cmd;	
+	queue<vector<char*> > q;
+	stack<vector<char*> > conStack; //connector stack	
+	for( unsigned int i = 0; i < cmdVector.size(); i++) /*until last element of vector*/ {
+			cmd = (const char *)(cmdVector.at(i).at(0));
+			if (*cmd != '&' && *cmd != '|' && *cmd != ';' && *cmd != '(' && *cmd != ')' ){
+				q.push(cmdVector.at(i) ); //if it's not a connector and not a parenthis it must be an executable so push that to the q
+			}
+			else if (*cmd == '&' || *cmd == '|' || *cmd == ';' ){ // if it's one of the connectors
+				if (conStack.empty() ){
+					conStack.push(cmdVector.at(i) );
+					continue;
+				}
+				else if (*(conStack.top().at(0)) != '('  ) {
+					q.push(conStack.top());
+					conStack.pop();
+				}
+				conStack.push(cmdVector.at(i));
+			}
+			else if (*cmd == '(' ){
+				conStack.push(cmdVector.at(i));
+			}
+			else if (*cmd == ')' ){
+					while (*(conStack.top().at(0)) != '(' ) {
+								q.push(conStack.top());
+								conStack.pop();
+					}
+					conStack.pop();
+			}
+	}
+	while (!conStack.empty() ) {
+				q.push(conStack.top());
+				conStack.pop();
+	}
+//q is now ready
 
+	//PART 2: Conversion to cmdBase* and building tree
+	//1. create a stack <cmdBase*>, 
+	//2. loop thru q : within each iteration do the following
+	//   - create cmdBase* based on its class (cmdExec or cmdAnd/cmdOr/cmdSemi) 
+	//     NOTE: use strcmp which returns 0 when same
+	//   - build tree by pushing to the <cmdBase*> stack
+	stack<cmdBase*> myStack;
+	cmdBase* A;
+	while (!q.empty()) {
+		cmd = (const char*)(q.front().at(0));
+		if ( *cmd == '&' ) { A = new cmdAnd(); }
+		else if ( *cmd == '|' ) { A = new cmdOr(); }
+		else if ( *cmd == ';' ) { A = new cmdSemi(); }
+		else { A = new cmdExec(q.front() ); }
+		
+		if (A->isExec()) {
+				myStack.push(A);
+		}
+		else {
+			cmdBase* right = myStack.top();
+			//A->setR(myStack.top());
+			myStack.pop();
+			//A->setL(myStack.top());
+			cmdBase* left = myStack.top();
+			myStack.pop();
+			A->set(left, right);
+			myStack.push(A);
+		}
+			
+		q.pop();
+	}
+
+//clearance
+	
+	myStack.top()->evaluate();
+	destroy(myStack.top() );
+
+	while (!myStack.empty()) {
+		myStack.pop();
+	}
+	
 
 }
 return 0;
