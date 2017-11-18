@@ -16,6 +16,10 @@ cmdExec::cmdExec(std::vector<char*> p) {
 	v = p;
 }
 
+bool cmdExec::isExec() {
+return true;
+}
+
 bool cmdExec::runTest(vector<char*> testVector){
 	
 	int chequer = strcmp(testVector.at(0), "test");

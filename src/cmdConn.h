@@ -3,15 +3,15 @@
 #include "cmdBase.h"
 
 class cmdConn : public cmdBase {
-	protected:
-		cmdBase* left;
-		cmdBase* right;
+//	protected:
+//		cmdBase* left;
+//		cmdBase* right;
 
 	public:	
 		cmdConn() : cmdBase(){}
-		cmdConn(cmdBase* l, cmdBase* r): left(l), right(r){}
+		//cmdConn(cmdBase* l, cmdBase* r): left(l), right(r){}
 		virtual bool evaluate() = 0;
-
+		virtual bool isExec() = 0;
 };
 
 #endif

@@ -5,7 +5,8 @@
 	class cmdSemi : public cmdConn {
 		public:
 			cmdSemi():cmdConn() {}
-			cmdSemi(cmdBase* left, cmdBase* right) : cmdConn(left, right) {}
+			//cmdSemi(cmdBase* left, cmdBase* right) : cmdConn(left, right) {}
 			bool evaluate(); 			
+			bool isExec();
 };
 #endif

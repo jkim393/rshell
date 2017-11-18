@@ -1,6 +1,10 @@
 #include "cmdSemi.h"
 #include <cstddef>
 
+bool cmdSemi::isExec(){
+return false;
+}
+
 bool cmdSemi::evaluate() {
 	left->evaluate();
 	bool s=	right->evaluate();

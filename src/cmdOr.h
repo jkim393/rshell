@@ -5,7 +5,8 @@
 	class cmdOr : public cmdConn {
 		public: 
 			cmdOr(): cmdConn() {}
-			cmdOr(cmdBase* left, cmdBase* right) : cmdConn(left, right) {}
+			//cmdOr(cmdBase* left, cmdBase* right) : cmdConn(left, right) {}
 			bool evaluate();
+			bool isExec();
 	};
 #endif
