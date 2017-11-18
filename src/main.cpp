@@ -14,6 +14,18 @@
 
 using namespace std;
 
+void destroy(cmdBase *curr){
+    if(curr == 0) {
+		        return;
+		    }
+    destroy(curr->left);
+    destroy(curr->right);
+    curr->left = 0;
+    curr->right = 0;
+    delete curr;
+    curr =  0;
+}
+
 void removeSemis(vector<char*> &finishedVect)
 {
 		char* last = finishedVect.back(); //last = nikhil;\0
@@ -86,10 +98,12 @@ cmdBase* createTree(vector<vector<char*> > v) {
 		}
 		else {
 			cmdBase* right = myStack.top();
+			//A->setR(myStack.top());
 			myStack.pop();
+			//A->setL(myStack.top());
 			cmdBase* left = myStack.top();
 			myStack.pop();
-			A->set(left, right);	
+			A->set(left, right);
 			myStack.push(A);
 		}
 			
@@ -211,13 +225,21 @@ int main()
 //	}
 //	cout << endl << endl;
 //}
-
+for (unsigned int i = 0; i < cmdVector.size(); ++i)
+{
+	for (unsigned int k = 0; k < cmdVector.at(i).size(); ++k)
+	{
+		cout << cmdVector.at(i).at(k) << " ";
+	}
+	cout << endl;
+}
 
 cmdBase* root = createTree(cmdVector);
 root->evaluate();
-
+destroy(root);
 
 
 }
 return 0;
 }
+
