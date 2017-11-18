@@ -1,4 +1,4 @@
 #!/bin/sh
-#tests exit command
+#tests exit
 
-.bin/rshell  < "tests/exit.txt"
+.bin/rshell < "tests/exit.txt"
