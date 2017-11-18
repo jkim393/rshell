@@ -11,7 +11,6 @@
 #include <queue>
 #include <stdio.h>
 #include <string.h>
-
 using namespace std;
 
 void destroy(cmdBase *curr){
@@ -152,6 +151,10 @@ int main()
 	{
 		return 0;
 	}
+	//if (userInput.find("exit") != std::string::npos || userInput.find("exit;") != std::string::npos) {
+  //  return 0;
+	//}
+
 	userInput = userInput.substr(0, userInput.find("#"));
 
 	int leftCount = 0;
@@ -311,7 +314,16 @@ int main()
 			}
 
 	}
-//	for (unsigned int i = 0; i < cmdVector.size(); i++){
+
+
+
+	for (int i = 0; i < cmdVector.size(); ++i)
+	{
+		if (*(cmdVector.at(i).front()) == NULL)
+		{
+			cmdVector.at(i).erase(cmdVector.at(i).begin());
+		}
+	}
 //		for (unsigned int j = 0; j < cmdVector.at(i).size(); j++){
 //			cout << cmdVector.at(i).at(j) << " ";
 //		}

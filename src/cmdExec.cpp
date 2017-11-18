@@ -79,7 +79,9 @@ bool cmdExec::evaluate(){
 	else if ( strcmp(v.at(0), "test") == 0 || strcmp(v.at(0), "[") == 0 ) { //test case
 		return runTest(v);
 	}
-	
+	else if (strcmp(v.at(0), "exit") == 0  ) {
+		_exit(0);
+	}
 
 	v.push_back(NULL); 			//adding Null for the execvp needs the Null at the end
 	char **command = &v[0]; //converting vector into array
