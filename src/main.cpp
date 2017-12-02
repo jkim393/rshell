@@ -11,6 +11,7 @@
 #include <queue>
 #include <stdio.h>
 #include <string.h>
+#include <stddef.h>
 using namespace std;
 
 void destroy(cmdBase *curr){
@@ -50,36 +51,36 @@ void removeParenthRight(vector<char*> &moddedVect)
 	return;
 	
 }
-
-cmdBase* createTree(vector<vector<char*> > v) {
+//function to createTree based on shuntingyard
+cmdBase* createTree(vector<vector<char*> > v){
 	//PART 1: Shuntingyard: create a postfix notation of the user's input
 	//1. create an output queue and a connector stack and push everything to the output queue using shunting yard algorithm
 	//queue: empty, front, back, push, pop, size
 	//stack: empty, top, push, pop, size
-	
+  const char* cmd;	
 	queue<vector<char*> > q;
 	stack<vector<char*> > conStack; //connector stack	
 	for( unsigned int i = 0; i < v.size(); i++) /*until last element of vector*/ {
-			const char* cmd = (const char *)(v.at(i).at(0));
-			if (strcmp(cmd, "&") !=0 && strcmp(cmd, "|") !=0 && strcmp(cmd, ";") !=0 && strcmp(cmd, "(") !=0 && strcmp(cmd, ")") !=0 ){
+			cmd = (const char *)(v.at(i).at(0));
+			if (*cmd != '&' && *cmd != '|' && *cmd != ';' && *cmd != '(' && *cmd != ')' ){
 				q.push(v.at(i) ); //if it's not a connector and not a parenthis it must be an executable so push that to the q
 			}
-			else if (strcmp(cmd, "&") ==0 || strcmp(cmd, "|") ==0 || strcmp(cmd, ";") ==0 ){ // if it's one of the connectors
+			else if (*cmd == '&' || *cmd == '|' || *cmd == ';' ){ // if it's one of the connectors
 				if (conStack.empty() ){
 					conStack.push(v.at(i) );
 					continue;
 				}
-				else if (strcmp(conStack.top().at(0), "(") != 0 ) {
+				else if (*(conStack.top().at(0)) != '('  ) {
 					q.push(conStack.top());
 					conStack.pop();
 				}
 				conStack.push(v.at(i));
 			}
-			else if (strcmp(cmd, "(") ==0 ){
+			else if (*cmd == '(' ){
 				conStack.push(v.at(i));
 			}
-			else if (strcmp(cmd, ")") ==0 ){
-					while (strcmp(conStack.top().at(0), "(" ) != 0) {
+			else if (*cmd == ')' ){
+					while (*(conStack.top().at(0)) != '(' ) {
 								q.push(conStack.top());
 								conStack.pop();
 					}
@@ -92,20 +93,21 @@ cmdBase* createTree(vector<vector<char*> > v) {
 	}
 //q is now ready
 
-
 	//PART 2: Conversion to cmdBase* and building tree
 	//1. create a stack <cmdBase*>, 
 	//2. loop thru q : within each iteration do the following
 	//   - create cmdBase* based on its class (cmdExec or cmdAnd/cmdOr/cmdSemi) 
 	//     NOTE: use strcmp which returns 0 when same
 	//   - build tree by pushing to the <cmdBase*> stack
-	stack<cmdBase*> myStack;
+	stack<cmdBase*> myStack;while (!myStack.empty()) {
+			myStack.pop();
+		}
+	cmdBase* A;
 	while (!q.empty()) {
-		const char* comd = (const char*)(q.front().at(0));
-		cmdBase* A;
-		if ( strcmp(comd, "&") == 0 ) { A = new cmdAnd(); }
-		else if ( strcmp(comd, "|") == 0 ) { A = new cmdOr(); }
-		else if ( strcmp(comd, ";") == 0 ) { A = new cmdSemi(); }
+		cmd = (const char*)(q.front().at(0));
+		if ( *cmd == '&' ) { A = new cmdAnd(); }
+		else if ( *cmd == '|' ) { A = new cmdOr(); }
+		else if ( *cmd == ';' ) { A = new cmdSemi(); }
 		else { A = new cmdExec(q.front() ); }
 		
 		if (A->isExec()) {
@@ -126,85 +128,82 @@ cmdBase* createTree(vector<vector<char*> > v) {
 	}
 
 //clearance
-	cmdBase* rt = myStack.top();
+	cmdBase* root = myStack.top();
 	while (!myStack.empty()) {
-		myStack.pop();
+			myStack.pop();
 	}
-	//PART 3: Return
-	//return the top() of the stack which is the root
-	return rt;
-	
+	return root;
 }
 
 int main()
 {
  bool checker = true;
 	while(checker){
-	vector< vector<char*> > cmdVector;   // this is a vector that holds the 2d vector: of commands + connectors (no semis)
-	//cmdPrompt(execVect); // this is what creates the 2d vector
+		vector< vector<char*> > cmdVector;   // this is a vector that holds the 2d vector: of commands + connectors (no semis)
+		//cmdPrompt(execVect); // this is what creates the 2d vector
   
-	string userInput = "";	//test string
-	cout << "$ ";	//outputs $
-	getline(cin, userInput); //get inputted strin
-	string temp = userInput.substr(0,4);
-	if (temp == "exit")
-	{
-		return 0;
-	}
-	//if (userInput.find("exit") != std::string::npos || userInput.find("exit;") != std::string::npos) {
-  //  return 0;
-	//}
-
-	userInput = userInput.substr(0, userInput.find("#"));
-
-	int leftCount = 0;
-	int rightCount = 0;
-	for (int i = 0; i < userInput.size(); ++i)
-	{
-		if (userInput.at(i) == '(')
+		string userInput = "";	//test string
+		cout << "$ ";	//outputs $
+		getline(cin, userInput); //get inputted strin
+		string temp = userInput.substr(0,4);
+		if (temp == "exit")
 		{
-			leftCount = leftCount + 1;
+			return 0;
 		}
-		else if (userInput.at(i) == ')')
-		{
-			rightCount = rightCount + 1;
-		}
-	}
+		//if (userInput.find("exit") != std::string::npos || userInput.find("exit;") != std::string::npos) {
+  	//  return 0;
+		//}
 
-	if (leftCount != rightCount)
-	{
-		cout << "Error: Missing or extra parenthesis" << endl;
-		continue;
-	}
+		userInput = userInput.substr(0, userInput.find("#"));
+
+		int leftCount = 0;
+		int rightCount = 0;
+		for (int i = 0; i < userInput.size(); ++i)
+		{
+			if (userInput.at(i) == '(')
+			{
+				leftCount = leftCount + 1;
+			}
+			else if (userInput.at(i) == ')')
+			{
+				rightCount = rightCount + 1;
+			}
+		}
+
+		if (leftCount != rightCount)
+		{
+			cout << "Error: Missing or extra parenthesis" << endl;
+			continue;
+		}
 	
 	
 	
-	char str[userInput.size()];	//creates character array with string size
-	strcpy(str,userInput.c_str());	//turn string into character string and store in str[]
-	char* pch;	//used to point at tokens
-	pch = strtok(str, " ");
-	char* last_letter = &(pch[strlen(pch)-1]); // points at las character
-	char* first_letter = pch;
-	bool connectorTrue = false; // checks if previous parse was a connector 
-	char* orsign = new char('|');
-	char* andsign = new char('&');
-	char* parsignLeft = new char('(');
-	char* parsignRight = new char(')');
-	char* semi = new char(';');	
-	vector<char*> andSign;
-	andSign.push_back(andsign);
-	vector<char*> orSign;
-	orSign.push_back(orsign);	
-	vector<char*> semiSign;
-	semiSign.push_back(semi);
-	vector<char*> parSignLeft;
-	parSignLeft.push_back(parsignLeft);
-	vector<char*> parSignRight;
-	parSignRight.push_back(parsignRight);
-	while (pch != NULL)
-	{
-		 if(cmdVector.size() == 0) 		  						//cmdVector parse when vector is empty (i.e. first pch)
-		 {
+		char str[userInput.size()];	//creates character array with string size
+		strcpy(str,userInput.c_str());	//turn string into character string and store in str[]
+		char* pch;	//used to point at tokens
+		pch = strtok(str, " ");
+		char* last_letter = &(pch[strlen(pch)-1]); // points at las character
+		char* first_letter = pch;
+		bool connectorTrue = false; // checks if previous parse was a connector 
+		char* orsign = new char('|');
+		char* andsign = new char('&');
+		char* parsignLeft = new char('(');
+		char* parsignRight = new char(')');
+		char* semi = new char(';');	
+		vector<char*> andSign;
+		andSign.push_back(andsign);
+		vector<char*> orSign;
+		orSign.push_back(orsign);	
+		vector<char*> semiSign;
+		semiSign.push_back(semi);
+		vector<char*> parSignLeft;
+		parSignLeft.push_back(parsignLeft);
+		vector<char*> parSignRight;
+		parSignRight.push_back(parsignRight);
+		while (pch != NULL)
+		{
+		 	if(cmdVector.size() == 0) 		  						//cmdVector parse when vector is empty (i.e. first pch)
+		 	{
 				vector<char*> tempVect;
 				tempVect.push_back(pch); 								// a vector containing (ls; or just ls) is made
 				cmdVector.push_back(tempVect);// a vector containing (ls; or just ls) is pushed to first row of the cmdVector
@@ -228,7 +227,7 @@ int main()
 				
 				
 				
-		 }	
+		 	}	
 
 
 			else //not first pch
@@ -304,7 +303,7 @@ int main()
 						 		cmdVector.back().push_back(pch);
 							}
 						}	
-			}
+			}//end of else
 
 			pch = strtok(NULL," "); //next token
 			if (pch != NULL)
@@ -313,108 +312,33 @@ int main()
 				first_letter = pch;
 			}
 
-	}
+		}//end of while pch!=Null parsing ends here
 
 
-
-	for (int i = 0; i < cmdVector.size(); ++i)
-	{
-		if (*(cmdVector.at(i).front()) == NULL)
+		// THIS FOR LOOP ALLOWS COMMANDS SUCH AS (( echo A && echo B )) would occur 
+		for (int i = 0; i < cmdVector.size(); ++i)
 		{
-			cmdVector.at(i).erase(cmdVector.at(i).begin());
+			if (*(cmdVector.at(i).front()) == NULL)
+			{
+				cmdVector.at(i).erase(cmdVector.at(i).begin());
+			}
 		}
-	}
-//		for (unsigned int j = 0; j < cmdVector.at(i).size(); j++){
-//			cout << cmdVector.at(i).at(j) << " ";
-//		}
-//		cout << endl;
-//	}
-//	cout << endl;
 
+		//TEST CASE FOR VECTOR TO MAKE SURE ITCONTAINS EVERYTHING PARSED COORECTLY
+		//  for (int i = 0; i < cmdVector.size(); i++){
+		//		for (unsigned int j = 0; j < cmdVector.at(i).size(); j++){
+		//			cout << cmdVector.at(i).at(j) << " ";
+		//		}
+		//		cout << endl;
+		//	}
+		//	cout << endl;
 
-	//PART 1: Shuntingyard: create a postfix notation of the user's input
-	//1. create an output queue and a connector stack and push everything to the output queue using shunting yard algorithm
-	//queue: empty, front, back, push, pop, size
-	//stack: empty, top, push, pop, size
-  const char* cmd;	
-	queue<vector<char*> > q;
-	stack<vector<char*> > conStack; //connector stack	
-	for( unsigned int i = 0; i < cmdVector.size(); i++) /*until last element of vector*/ {
-			cmd = (const char *)(cmdVector.at(i).at(0));
-			if (*cmd != '&' && *cmd != '|' && *cmd != ';' && *cmd != '(' && *cmd != ')' ){
-				q.push(cmdVector.at(i) ); //if it's not a connector and not a parenthis it must be an executable so push that to the q
-			}
-			else if (*cmd == '&' || *cmd == '|' || *cmd == ';' ){ // if it's one of the connectors
-				if (conStack.empty() ){
-					conStack.push(cmdVector.at(i) );
-					continue;
-				}
-				else if (*(conStack.top().at(0)) != '('  ) {
-					q.push(conStack.top());
-					conStack.pop();
-				}
-				conStack.push(cmdVector.at(i));
-			}
-			else if (*cmd == '(' ){
-				conStack.push(cmdVector.at(i));
-			}
-			else if (*cmd == ')' ){
-					while (*(conStack.top().at(0)) != '(' ) {
-								q.push(conStack.top());
-								conStack.pop();
-					}
-					conStack.pop();
-			}
-	}
-	while (!conStack.empty() ) {
-				q.push(conStack.top());
-				conStack.pop();
-	}
-//q is now ready
+		//call function here to create the tree
+		cmdBase* rooot = createTree(cmdVector);
+		rooot->evaluate();
+		destroy(rooot);
+	} //end of the while checker
 
-	//PART 2: Conversion to cmdBase* and building tree
-	//1. create a stack <cmdBase*>, 
-	//2. loop thru q : within each iteration do the following
-	//   - create cmdBase* based on its class (cmdExec or cmdAnd/cmdOr/cmdSemi) 
-	//     NOTE: use strcmp which returns 0 when same
-	//   - build tree by pushing to the <cmdBase*> stack
-	stack<cmdBase*> myStack;
-	cmdBase* A;
-	while (!q.empty()) {
-		cmd = (const char*)(q.front().at(0));
-		if ( *cmd == '&' ) { A = new cmdAnd(); }
-		else if ( *cmd == '|' ) { A = new cmdOr(); }
-		else if ( *cmd == ';' ) { A = new cmdSemi(); }
-		else { A = new cmdExec(q.front() ); }
-		
-		if (A->isExec()) {
-				myStack.push(A);
-		}
-		else {
-			cmdBase* right = myStack.top();
-			//A->setR(myStack.top());
-			myStack.pop();
-			//A->setL(myStack.top());
-			cmdBase* left = myStack.top();
-			myStack.pop();
-			A->set(left, right);
-			myStack.push(A);
-		}
-			
-		q.pop();
-	}
-
-//clearance
-	
-	myStack.top()->evaluate();
-	destroy(myStack.top() );
-
-	while (!myStack.empty()) {
-		myStack.pop();
-	}
-	
-
-}
 return 0;
 }
 
