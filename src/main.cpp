@@ -325,7 +325,7 @@ int main()
 				cmdVector.at(i).erase(cmdVector.at(i).begin());
 			}
 		}
-
+		/*
 		//TEST CASE FOR VECTOR TO MAKE SURE ITCONTAINS EVERYTHING PARSED COORECTLY
 		  for (int i = 0; i < cmdVector.size(); i++){
 				for (unsigned int j = 0; j < cmdVector.at(i).size(); j++){
@@ -334,6 +334,12 @@ int main()
 				cout << endl;
 			}
 			cout << endl;
+
+		*/
+      
+
+
+
 
 		//call function here to create the tree
 		cmdBase* rooot = createTree(cmdVector);
