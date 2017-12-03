@@ -176,7 +176,7 @@ int main()
 			continue;
 		}
 	
-	
+		//Start the parsing part
 	
 		char str[userInput.size()];	//creates character array with string size
 		strcpy(str,userInput.c_str());	//turn string into character string and store in str[]
@@ -184,12 +184,13 @@ int main()
 		pch = strtok(str, " ");
 		char* last_letter = &(pch[strlen(pch)-1]); // points at las character
 		char* first_letter = pch;
+		size_t len; //this will hold the len size
 		bool connectorTrue = false; // checks if previous parse was a connector 
-		char* orsign = new char('|');
-		char* andsign = new char('&');
-		char* parsignLeft = new char('(');
-		char* parsignRight = new char(')');
-		char* semi = new char(';');	
+		char* orsign = "||";
+		char* andsign = "&&";
+		char* parsignLeft = "(";
+		char* parsignRight = ")";
+		char* semi = ";";
 		vector<char*> andSign;
 		andSign.push_back(andsign);
 		vector<char*> orSign;
@@ -263,7 +264,7 @@ int main()
 							cmdVector.push_back(andSign);
 							connectorTrue = true; //set previous as connector
 						}
-						else if ( *(last_letter) == '|' ) //lastletter is |
+						else if ( *(last_letter) == '|' && len == 2) //lastletter is |
 						{
 							cmdVector.push_back(orSign);
 					 	 	connectorTrue = true; //previous  as connector
@@ -310,6 +311,7 @@ int main()
 			{
 				last_letter = &(pch[strlen(pch)-1]);
 				first_letter = pch;
+				len = strlen(first_letter);
 			}
 
 		}//end of while pch!=Null parsing ends here
@@ -325,13 +327,13 @@ int main()
 		}
 
 		//TEST CASE FOR VECTOR TO MAKE SURE ITCONTAINS EVERYTHING PARSED COORECTLY
-		//  for (int i = 0; i < cmdVector.size(); i++){
-		//		for (unsigned int j = 0; j < cmdVector.at(i).size(); j++){
-		//			cout << cmdVector.at(i).at(j) << " ";
-		//		}
-		//		cout << endl;
-		//	}
-		//	cout << endl;
+		  for (int i = 0; i < cmdVector.size(); i++){
+				for (unsigned int j = 0; j < cmdVector.at(i).size(); j++){
+					cout << cmdVector.at(i).at(j) << " ";
+				}
+				cout << endl;
+			}
+			cout << endl;
 
 		//call function here to create the tree
 		cmdBase* rooot = createTree(cmdVector);
