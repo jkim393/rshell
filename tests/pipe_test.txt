@@ -1,0 +1,5 @@
+ls -l | cat
+ls | grep Makefile
+cat output.txt | more
+cat output.txt | less
+cat < output.txt | tr A-Z a-z | tee output2.txt | tr a-z A-Z > output3.txt

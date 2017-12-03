@@ -1,0 +1,5 @@
+ls > output.txt
+echo hello world! > output.txt
+cat < output.txt > output2.txt
+echo hello world! | less > output.txt
+echo this is a test | grep test > output.txt

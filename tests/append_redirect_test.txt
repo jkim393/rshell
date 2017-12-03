@@ -1,0 +1,5 @@
+ls > output.txt
+cat Makefile >> output.txt
+echo This file has valuable information >> output.txt
+cat < Makefile >> output.txt
+cat output.txt | grep -f >> output.txt

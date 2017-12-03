@@ -1,0 +1,5 @@
+cat < Makefile
+cat < Makefile > output.txt
+wc -l < output.txt
+cat < README.md | tr A-Z a-z
+grep Ji < README.md

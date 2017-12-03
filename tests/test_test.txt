@@ -1,4 +1,0 @@
-test Makefile
-test -d src
-[ -e src ] && echo "path exists"
-test -e src && echo "path does exist"
