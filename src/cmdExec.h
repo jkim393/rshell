@@ -13,6 +13,7 @@ class cmdExec : public cmdBase {
 	public:
 		cmdExec():cmdBase() {}
 		cmdExec(std::vector<char*> p); //take in the array whose first element is command
+		bool checkRedirection(std::vector<char*> testingVector);
 		bool evaluate(); //execute the command
 		bool runTest(std::vector<char*> testVector);
 		bool isExec();
