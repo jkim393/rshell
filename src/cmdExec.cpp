@@ -76,6 +76,50 @@ bool cmdExec::checkRedirection(vector<char*> testingVector){
 	char* testV;
 	vector<char*> testVect = testingVector;
 	bool trueRedirect = false;
+
+	for (int i = 0; i < testVect.size(); ++i)
+	{
+		testV = strchr(testVect.at(i), '|');
+		if (testV != NULL)
+		{
+			string str(*(testVect.begin()),*(testVect.begin() + i));
+			string str2(*(testVect.begin() + i + 1), *(testVect.end() - 1));
+			str2.append(testVect.back());
+			const char * a = str.c_str();
+			const char * b = str2.c_str();
+
+		FILE *pipein_fp, *pipeout_fp;
+        char readbuf[1000];
+
+        // Create one way pipe line with call to popen() 
+        if (( pipein_fp = popen(a, "r")) == NULL)
+        {
+                perror("popen");
+                return false;
+        }
+
+        // Create one way pipe line with call to popen() 
+        if (( pipeout_fp = popen(b, "w")) == NULL)
+        {
+                perror("popen");
+                return false;
+        }
+
+        //Processing loop 
+        while(fgets(readbuf, 1000, pipein_fp))
+                fputs(readbuf, pipeout_fp);
+
+        //Close the pipes 
+        pclose(pipein_fp);
+        pclose(pipeout_fp);
+
+        return true;
+
+
+			
+		}
+	}
+	
 	for (int i = 0; i < testVect.size(); ++i)
 	{
 		testV = strchr(testVect.at(i), '<');
